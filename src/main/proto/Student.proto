@@ -2,11 +2,24 @@ syntax = "proto3";
 //永远不要修改生成的代码，只能修改这里的代码
 //使用方式protoc --java_out=src/main/java  src/protobuf/Studuent.proto
 //产生class文件,具体其他生产方法，可以看官方文档.
-package com.protobuf.test;
+package com.junhua.proto;
 
 option optimize_for = SPEED; //加快解析速度，详细可以去官网查加快解析速度，不写默认是这个
 option java_package = "com.junhua.protobuf";
-option java_outer_classname = "MyDataInfo";
+option java_outer_classname = "StudentProto";
+
+
+service StudentService {
+  rpc getRealNameByUsername(Request) returns (Response) {}
+}
+
+message Request {
+  string username = 1;
+}
+
+message Response {
+  string realname = 2;
+}
 
 message Student {
   string name = 1;
