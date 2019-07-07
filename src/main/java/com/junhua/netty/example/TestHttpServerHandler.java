@@ -25,7 +25,7 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
   protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
     // if don't have this line ,will throw exception
     if (msg instanceof HttpRequest) {
-      var content = Unpooled.copiedBuffer("Hello world", CharsetUtil.UTF_8);
+      ByteBuf content = Unpooled.copiedBuffer("Hello world", CharsetUtil.UTF_8);
       FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
           HttpResponseStatus.OK, content);
       response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");

@@ -5,12 +5,17 @@ syntax = "proto3";
 package com.junhua.proto;
 
 option optimize_for = SPEED; //加快解析速度，详细可以去官网查加快解析速度，不写默认是这个
-option java_package = "com.junhua.protobuf";
+option java_package = "com.junhua.proto";
 option java_outer_classname = "StudentProto";
-
+option java_multiple_files=true;
 
 service StudentService {
   rpc getRealNameByUsername(Request) returns (Response) {}
+  // 以流的形式返回结果
+  rpc getStudentsByAge(StudentRequest) returns (stream StudentResponse) {}
+  // 以流的形式传如参数
+  rpc getStudentsWrapperByAge(stream StudentRequest) returns (StudentResponseList) {}
+  rpc biTalk(stream StreamRequest) returns (stream StreamResponse) {}
 }
 
 message Request {
@@ -21,34 +26,24 @@ message Response {
   string realname = 2;
 }
 
-message Student {
-  string name = 1;
-  int32 id = 2;
-  string address = 3;
+message StudentRequest {
+  int32 age=1;
 }
 
-message MyMessage {
-  enum DataType {
-    StudentType = 0;
-    DogType = 1;
-    CatType = 2;
-  }
-
-  DataType dataType = 1;
-
-  oneof dataBody {
-    Student student = 2;
-    Dog dog = 3;
-    Cat cat = 4;
-  }
-}
-
-message Dog {
+message StudentResponse {
   string name = 1;
   int32 age = 2;
+  string city = 3;
 }
 
-message Cat {
-  string name = 1;
-  int32 age = 2;
+message StudentResponseList {
+  repeated StudentResponse studentResponse = 1;
+}
+
+message StreamRequest {
+  string requestInfo = 1;
+}
+
+message StreamResponse {
+  string responseInfor = 1;
 }
