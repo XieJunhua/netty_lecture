@@ -12,6 +12,7 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.CharsetUtil;
+import java.net.URI;
 import java.nio.charset.Charset;
 
 /**
@@ -23,8 +24,18 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
 
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+    System.out.println(msg.getClass());
     // if don't have this line ,will throw exception
     if (msg instanceof HttpRequest) {
+
+      HttpRequest httpRequest = (HttpRequest)msg;
+      System.out.println(httpRequest.method());
+      URI uri = new URI(httpRequest.uri());
+      if ("/favicon.ico".equals(uri.getPath())) {
+        System.out.println("请求favicon.ico");
+        return;
+      }
+
       ByteBuf content = Unpooled.copiedBuffer("Hello world", CharsetUtil.UTF_8);
       FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
           HttpResponseStatus.OK, content);
@@ -33,5 +44,41 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
 
       ctx.writeAndFlush(response);
     }
+  }
+
+  @Override
+  public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+    System.out.println("handler added");
+    super.handlerAdded(ctx);
+  }
+
+  @Override
+  public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+    System.out.println("handler removed");
+    super.handlerRemoved(ctx);
+  }
+
+  @Override
+  public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+    System.out.println("handler registered");
+    super.channelRegistered(ctx);
+  }
+
+  @Override
+  public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+    System.out.println("handler unregistered");
+    super.channelUnregistered(ctx);
+  }
+
+  @Override
+  public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    System.out.println("handler active");
+    super.channelActive(ctx);
+  }
+
+  @Override
+  public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    System.out.println("handler inactive");
+    super.channelInactive(ctx);
   }
 }

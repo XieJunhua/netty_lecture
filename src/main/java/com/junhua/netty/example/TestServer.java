@@ -10,7 +10,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * @author junhua
  * @date 2019/5/23 9:53 AM
  */
-public class TestServer {
+public class  TestServer {
 
   public static void main(String[] args) throws InterruptedException {
     // accept connection

@@ -26,6 +26,10 @@ public class NioTest2 {
 
   }
 
+  /**
+   * 构造一些内容，输出到文件中
+   * @throws Exception
+   */
   public static void writeData() throws Exception {
 //    FileOutputStream fileOutputStream = new FileOutputStream("NioTest3.txt");
 //    FileChannel fileChannel = fileOutputStream.getChannel();
